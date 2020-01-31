@@ -243,9 +243,8 @@ step-setup-goma-for-build: &step-setup-goma-for-build
       fi
       if [ ! -z "$RAW_GOMA_AUTH" ]; then
         echo $RAW_GOMA_AUTH > ~/.goma_oauth2_config
-        src/electron/external_binaries/goma/goma_ctl.py ensure_start
       fi
-      git clone build-tools
+      git clone https://github.com/electron/build-tools.git
       node -e require('src/utils/goma.js').downloadAndPrepare()
       node -e require('src/utils/goma.js').ensure()
 
