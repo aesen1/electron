@@ -247,8 +247,8 @@ step-setup-goma-for-build: &step-setup-goma-for-build
       git clone https://github.com/electron/build-tools.git
       cd build-tools
       npm install
-      node -e "require('src/utils/goma.js').downloadAndPrepare()"
-      node -e "require('src/utils/goma.js').ensure()"
+      node -e "require('./src/utils/goma.js').downloadAndPrepare()"
+      node -e "require('./src/utils/goma.js').ensure()"
       cd ..
 
 step-restore-brew-cache: &step-restore-brew-cache
