@@ -245,8 +245,9 @@ step-setup-goma-for-build: &step-setup-goma-for-build
         echo $RAW_GOMA_AUTH > ~/.goma_oauth2_config
       fi
       git clone https://github.com/electron/build-tools.git
-      node -e "require('src/utils/goma.js').downloadAndPrepare()"
-      node -e "require('src/utils/goma.js').ensure()"
+      cd build-tools
+      node -e "require('build-tools/src/utils/goma.js').downloadAndPrepare()"
+      node -e "require('build-tools/src/utils/goma.js').ensure()"
 
 step-restore-brew-cache: &step-restore-brew-cache
   restore_cache:
