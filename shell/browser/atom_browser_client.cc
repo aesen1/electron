@@ -212,7 +212,6 @@ void AtomBrowserClient::SetApplicationLocale(const std::string& locale) {
 AtomBrowserClient::AtomBrowserClient() {
   DCHECK(!g_browser_client);
   g_browser_client = this;
-  request_id_generator_ = base::MakeRefCounted<api::RequestIDGenerator>();
 }
 
 AtomBrowserClient::~AtomBrowserClient() {
@@ -1106,7 +1105,7 @@ void AtomBrowserClient::CreateWebSocket(
       site_for_cookies.RepresentativeUrl(), user_agent,
       std::move(handshake_client), true, frame->GetProcess()->GetID(),
       frame->GetRoutingID(), frame->GetLastCommittedOrigin(),
-      frame->GetProcess()->GetBrowserContext(), request_id_generator_);
+      frame->GetProcess()->GetBrowserContext(), &next_id_);
 }
 
 bool AtomBrowserClient::WillCreateURLLoaderFactory(
@@ -1150,8 +1149,8 @@ bool AtomBrowserClient::WillCreateURLLoaderFactory(
     header_client_receiver = header_client->InitWithNewPipeAndPassReceiver();
 
   new ProxyingURLLoaderFactory(
-      request_id_generator_, web_request.get(), protocol->intercept_handlers(),
-      browser_context, render_process_id, std::move(navigation_ui_data),
+      web_request.get(), protocol->intercept_handlers(), browser_context,
+      render_process_id, &next_id_, std::move(navigation_ui_data),
       std::move(navigation_id), std::move(proxied_receiver),
       std::move(target_factory_remote), std::move(header_client_receiver),
       type);
